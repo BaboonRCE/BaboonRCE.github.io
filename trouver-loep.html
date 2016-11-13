@@ -3,8 +3,8 @@
 <head>
         <meta charset="utf-8" />
         <title>Trouver l'OEP</title>
-        <link rel="stylesheet" href="https://baboonrce.github.io/theme/css/main.css" />
-
+        <link rel="stylesheet" href="http://localhost:8000/theme/css/main.css" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
         <!--[if IE]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -12,10 +12,10 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="https://baboonrce.github.io/">Baboon's Blog </a></h1>
+                <h1><a href="http://localhost:8000/">Baboon's Blog </a></h1>
                 <nav><ul>
-                    <li><a href="https://baboonrce.github.io/category/misc.html">MISC</a></li>
-                    <li class="active"><a href="https://baboonrce.github.io/category/unpacking.html">Unpacking</a></li>
+                    <li><a href="http://localhost:8000/category/misc.html">MISC</a></li>
+                    <li class="active"><a href="http://localhost:8000/category/unpacking.html">Unpacking</a></li>
                 </ul>
                 </nav>
         </header><!-- /#banner -->
@@ -23,14 +23,14 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="https://baboonrce.github.io/trouver-loep.html" rel="bookmark"
+        <a href="http://localhost:8000/trouver-loep.html" rel="bookmark"
            title="Permalink to Trouver l'OEP">Trouver l'OEP</a></h1>
     </header>
 
     <div class="entry-content">
 <footer class="post-info">
         <span>dim. 06 novembre 2016</span>
-<span>| tags: <a href="https://baboonrce.github.io/tag/denuvo.html">Denuvo</a><a href="https://baboonrce.github.io/tag/unpacking.html">unpacking</a><a href="https://baboonrce.github.io/tag/fail.html">fail</a><a href="https://baboonrce.github.io/tag/oep.html">OEP</a></span>
+<span>| tags: <a href="http://localhost:8000/tag/denuvo.html">Denuvo</a><a href="http://localhost:8000/tag/unpacking.html">unpacking</a><a href="http://localhost:8000/tag/fail.html">fail</a><a href="http://localhost:8000/tag/oep.html">OEP</a></span>
 </footer><!-- /.post-info -->      <p>Aujourd'hui on se lance tout doucement dans l'unpacking de Just Cause 3 et on commence... par le commencement c'est à dire la détection de l'OEP (Original Entry Point, le point d'entrée du jeu avant qu'il ait été packé).</p>
 <p>Plusieurs techniques plus ou moins génériques permettent de retrouver l'OEP d'un programme, il ne s'agit pas de l'étape la plus compliquée. De nombreux papers académiques se vantent d'ailleurs régulièrement d'unpacker automatiquement une foultitude de packer alors qu'ils se contentent de retrouver l'OEP d'un programme packé. Les méthodes génériques se basent souvent sur un historique des pages écrites et exécutées : si une page mémoire a été écrite puis exécutée, il y a de forte chance qu'elle corresponde à une portion de code qui a été déchiffrée / décompressée / décodée et donc potentiellement le code original. Plusieurs techniques peuvent être utilisées pour faire ça, la plus simple est de modifier les droits des pages de manière à ce qu'une écriture ou une exécution génère une exception. D'autres méthodes utilisent des techniques un peu plus avancées avec du data tainting, de l'émulation etc. mais c'est souvent un peu overkill...</p>
 <p>Généralement la bonne combinaison pour retrouver un OEP pour un packer donné est de poser des hooks sur des APIs qu'on sait être utilisées en fin d'unpack et d'utiliser ensuite VirtualProtect pour modifier les droits des pages susceptibles de contenir l'OEP (les sections exécutables du PE). On monitore ensuite les exceptions avec un petit hook dans KiUserExceptionDispatcher (ou une API un peu plus basse pour éviter une détection) ou un vectored exception handler et on arrive à retrouver notre OEP.</p>
@@ -44,7 +44,7 @@
 <li>En remontant un peu la call stack de la main thread, on retrouve vite l'entry point et aucun stolen byte ne semble être présents.</li>
 </ul>
 <p>Une autre méthode très rapide pour retrouver l'OEP d'un programme compilé avec Visual Studio est de rechercher la constante 0x2B992DDFA232, il s'agit en effet de la valeur par défaut du __security_cookie initialisé au tout début de l'exécution du programme. Dans la catpure d'écran ci-dessous (magnifiée avec grâce sous Paint), vous pouvez voir l'EP de x64dbg (excellent débugger au fait) avec les symboles associés et en dessous l'OEP de JC3. On voit tout de suite la similitude et la fameuse constante.</p>
-<p><img alt="Capture d'écran montrant les similitudes entre l'EP de x64dbg et l'OEP de JC3" src="https://baboonrce.github.io/images/OEP.png" title="Capture d'écran montrant les similitudes entre l'EP de x64dbg et l'OEP de JC3" /></p>
+<p><img alt="Capture d'écran montrant les similitudes entre l'EP de x64dbg et l'OEP de JC3" src="http://localhost:8000/images/OEP.png" title="Capture d'écran montrant les similitudes entre l'EP de x64dbg et l'OEP de JC3" /></p>
 <p>Maintenant que nous avons notre OEP, nous aimerions bien y poser un breakpoint de manière à avoir notre programme dans un état "dumpable". Ce n'est pas si facile que ça pour les raisons suivantes :</p>
 <ul>
 <li>il y a peut être des anti-X un peu partout pendant le chargement du jeu ;</li>
@@ -238,7 +238,7 @@
       <div id="disqus_thread"></div>
       <script type="text/javascript">
         var disqus_identifier = "trouver-loep.html";
-        var disqus_url = "https://baboonrce.github.io/trouver-loep.html";
+        var disqus_url = "http://localhost:8000/trouver-loep.html";
         (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//baboons-blog.disqus.com/embed.js';
